@@ -1,6 +1,7 @@
 package api_tests
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -16,7 +17,7 @@ func TestBlobberRewards(testSetup *testing.T) {
 	t := test.NewSystemTest(testSetup)
 
 	t.RunSequentially("Check if blobber, which already exists in allocation as additional parity shard can receive rewards, should work", func(t *test.SystemTest) {
-		t.Skip("wait for reward fixes")
+		//t.Skip("wait for reward fixes")
 
 		apiClient.ExecuteFaucet(t, sdkWallet, client.TxSuccessfulStatus)
 
@@ -52,16 +53,21 @@ func TestBlobberRewards(testSetup *testing.T) {
 		walletBalance := apiClient.GetWalletBalance(t, sdkWallet, client.HttpOkStatus)
 		balanceBefore := walletBalance.Balance
 
+		fmt.Println("Rewards: ", rewards)
+		fmt.Println("Balance before: ", balanceBefore)
+
 		apiClient.CollectRewards(t, sdkWallet, blobberID, 3, client.TxSuccessfulStatus)
 
 		walletBalance = apiClient.GetWalletBalance(t, sdkWallet, client.HttpOkStatus)
 		balanceAfter := walletBalance.Balance
 
+		fmt.Println("Balance after: ", balanceAfter)
+
 		require.Equal(t, balanceAfter, balanceBefore+rewards)
 	})
 
 	t.RunSequentially("Check if the balance of the wallet has been changed without rewards being claimed, shouldn't work", func(t *test.SystemTest) {
-		t.Skip("wait for reward fixes")
+		//t.Skip("wait for reward fixes")
 		apiClient.ExecuteFaucet(t, sdkWallet, client.TxSuccessfulStatus)
 
 		blobberRequirements := model.DefaultBlobberRequirements(sdkWallet.Id, sdkWallet.PublicKey)

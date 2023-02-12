@@ -61,6 +61,7 @@ const (
 	miner03NodeDelegateWalletName   = "wallets/miner03_node_delegate"
 	sharder01NodeDelegateWalletName = "wallets/sharder01_node_delegate"
 	sharder02NodeDelegateWalletName = "wallets/sharder02_node_delegate"
+	validatorWallet                 = "wallets/validator"
 )
 
 var (
@@ -110,6 +111,7 @@ func TestMain(m *testing.M) {
 				if strings.HasSuffix(f, zcnscOwner+"_wallet.json") ||
 					strings.HasSuffix(f, scOwnerWallet+"_wallet.json") ||
 					strings.HasSuffix(f, blobberOwnerWallet+"_wallet.json") ||
+					strings.HasSuffix(f, validatorWallet+"_wallet.json") ||
 					strings.HasSuffix(f, miner01NodeDelegateWalletName+"_wallet.json") ||
 					strings.HasSuffix(f, miner02NodeDelegateWalletName+"_wallet.json") ||
 					strings.HasSuffix(f, miner03NodeDelegateWalletName+"_wallet.json") ||

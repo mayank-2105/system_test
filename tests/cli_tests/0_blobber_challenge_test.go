@@ -78,6 +78,11 @@ func TestBlobberChallenge(testSetup *testing.T) {
 		require.Nil(t, err, "error uploading file", strings.Join(output, "\n"))
 
 		passed := areNewChallengesOpened(t, sharderBaseURLs, blobbers, openChallengesBefore)
+
+		if !passed {
+			fmt.Println("openChallengesBefore", openChallengesBefore)
+			fmt.Println("openChallengesAfter", openChallengesForAllBlobbers(t, sharderBaseURLs, blobbers))
+		}
 		require.True(t, passed, "expected new challenges to be created after an upload operation")
 	})
 
