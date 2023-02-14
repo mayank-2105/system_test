@@ -51,6 +51,13 @@ func TestBlobberChallenge(testSetup *testing.T) {
 	require.True(t, len(blobberList) > 0, "No blobbers found in blobber list")
 
 	t.RunSequentiallyWithTimeout("Uploading a file greater than 1 MB should generate randomized challenges", 3*time.Minute, func(t *test.SystemTest) {
+
+		fmt.Println(blobberList)
+
+		// list validators
+		output, err := listValidators(t, configPath, "--json")
+		fmt.Println(output)
+
 		allocationId := setupAllocationAndReadLock(t, configPath, map[string]interface{}{
 			"size":   10 * MB,
 			"tokens": 1,
