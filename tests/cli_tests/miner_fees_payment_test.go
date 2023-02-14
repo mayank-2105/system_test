@@ -310,6 +310,27 @@ func getBlockContainingTransaction(
 	return block
 }
 
+func getBlockContainingBlobberReward(
+	t *test.SystemTest,
+	startBlock, endBlock *climodel.LatestFinalizedBlock,
+) (block []climodel.Block) {
+
+	blocks := []climodel.Block{}
+
+	for round := startBlock.Round + 1; round <= endBlock.Round; round++ {
+		block := getRoundBlockFromASharder(t, round)
+
+		for i := range block.Block.Transactions {
+			txn := block.Block.Transactions[i]
+			// Find the generator miner of the block on which this transaction was recorded
+			if strings.Contains(txn.TransactionData, "challenge_response") {
+				blocks = append(blocks, block)
+			}
+		}
+	}
+	return blocks
+}
+
 func apiGetLatestFinalized(sharderBaseURL string) (*http.Response, error) {
 	return http.Get(sharderBaseURL + "/v1/block/get/latest_finalized")
 }
